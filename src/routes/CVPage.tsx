@@ -24,7 +24,7 @@ export function CVPage() {
           <a
             href="/cv.pdf"
             download
-            className="rounded-full bg-accent px-5 py-2.5 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-void transition-opacity hover:opacity-90"
+            className="rounded-full bg-accent px-5 py-2.5 font-mono text-[0.72rem] uppercase tracking-[0.12em] text-on-accent transition-opacity hover:opacity-90"
           >
             Descargar PDF
           </a>

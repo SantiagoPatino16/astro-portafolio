@@ -23,7 +23,7 @@ export function Contact() {
           <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
             href={`mailto:${contact.email}`}
-            className="rounded-full bg-accent px-6 py-3 font-mono text-[0.74rem] uppercase tracking-[0.12em] text-void transition-opacity hover:opacity-90"
+            className="rounded-full bg-accent px-6 py-3 font-mono text-[0.74rem] uppercase tracking-[0.12em] text-on-accent transition-opacity hover:opacity-90"
           >
             {contact.email}
           </a>

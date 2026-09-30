@@ -16,7 +16,7 @@ export function NotFound() {
         <p className="mt-4 text-ink-muted">La página que buscas no existe.</p>
         <Link
           to="/"
-          className="mt-8 inline-block rounded-full bg-accent px-6 py-3 font-mono text-[0.74rem] uppercase tracking-[0.12em] text-void transition-opacity hover:opacity-90"
+          className="mt-8 inline-block rounded-full bg-accent px-6 py-3 font-mono text-[0.74rem] uppercase tracking-[0.12em] text-on-accent transition-opacity hover:opacity-90"
         >
           Volver al inicio
         </Link>

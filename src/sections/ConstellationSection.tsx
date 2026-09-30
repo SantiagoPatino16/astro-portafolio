@@ -1,4 +1,5 @@
 import { SectionHeading } from '@/components/SectionHeading'
+import { Parallax } from '@/components/Parallax'
 import { Constellation } from '@/components/constellation/Constellation'
 
 export function ConstellationSection() {
@@ -11,7 +12,9 @@ export function ConstellationSection() {
         description="Cada nodo es un producto o servicio real. Están conectados porque comparten dominio, decisiones y evolución."
       />
       <div className="mt-12">
-        <Constellation />
+        <Parallax from={24} to={-24}>
+          <Constellation />
+        </Parallax>
       </div>
     </section>
   )

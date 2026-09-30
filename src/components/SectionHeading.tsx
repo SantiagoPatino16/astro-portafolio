@@ -9,7 +9,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({ index, eyebrow, title, description }: SectionHeadingProps) {
   return (
-    <Reveal>
+    <Reveal variant="blur">
       <div className="max-w-2xl">
         <p className="eyebrow mb-4">
           <span className="text-ink-faint">{index} /</span> {eyebrow}

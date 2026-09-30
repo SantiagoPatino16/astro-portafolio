@@ -4,8 +4,14 @@ import { OrbitControls, Line } from '@react-three/drei'
 import * as THREE from 'three'
 import { constellation, type ConstellationNode } from '@/data/constellation'
 import { constellationEdges, nodeById } from '@/lib/constellation'
+import type { Theme } from '@/app/theme-context'
 
 const SCALE = 2.7
+
+const palettes = {
+  dark: { accent: '#e0a458', node: '#e9ebf1', service: '#97a0b3', edge: '#3a4150', star: '#8a94a8' },
+  light: { accent: '#a86a1c', node: '#1a1d24', service: '#545c6a', edge: '#c8ccd4', star: '#7c8594' },
+} as const
 
 const radiusFor = (kind: string) => {
   if (kind === 'core') return 0.3
@@ -23,7 +29,7 @@ function seededRandom(seed: number) {
   }
 }
 
-function Starfield() {
+function Starfield({ color }: { color: string }) {
   const ref = useRef<THREE.Points>(null)
   const positions = useMemo(() => {
     const random = seededRandom(42)
@@ -49,7 +55,7 @@ function Starfield() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial size={0.06} sizeAttenuation color="#8a94a8" transparent opacity={0.45} depthWrite={false} />
+      <pointsMaterial size={0.06} sizeAttenuation color={color} transparent opacity={0.45} depthWrite={false} />
     </points>
   )
 }
@@ -58,11 +64,12 @@ interface NodeProps {
   node: ConstellationNode
   active: string | null
   activeSet: Set<string> | null
+  palette: (typeof palettes)[Theme]
   onHover: (id: string | null) => void
   onSelect: (node: ConstellationNode) => void
 }
 
-function Node({ node, active, activeSet, onHover, onSelect }: NodeProps) {
+function Node({ node, active, activeSet, palette, onHover, onSelect }: NodeProps) {
   const mesh = useRef<THREE.Mesh>(null)
   const isCore = node.kind === 'core'
   const pos = new THREE.Vector3(
@@ -80,12 +87,14 @@ function Node({ node, active, activeSet, onHover, onSelect }: NodeProps) {
     mesh.current.scale.lerp(new THREE.Vector3(target, target, target), 0.15)
   })
 
+  const baseColor = isCore ? palette.accent : node.kind === 'service' ? palette.service : palette.node
+
   return (
     <group position={pos}>
       {isCore ? (
         <mesh>
           <torusGeometry args={[0.46, 0.008, 16, 64]} />
-          <meshBasicMaterial color="#e0a458" transparent opacity={0.35} />
+          <meshBasicMaterial color={palette.accent} transparent opacity={0.35} />
         </mesh>
       ) : null}
       <mesh
@@ -106,7 +115,7 @@ function Node({ node, active, activeSet, onHover, onSelect }: NodeProps) {
       >
         <sphereGeometry args={[radiusFor(node.kind), 32, 32]} />
         <meshBasicMaterial
-          color={highlighted ? '#e0a458' : isCore ? '#e0a458' : node.kind === 'service' ? '#97a0b3' : '#e9ebf1'}
+          color={highlighted ? palette.accent : baseColor}
           transparent
           opacity={dimmed ? 0.18 : 1}
         />
@@ -116,12 +125,14 @@ function Node({ node, active, activeSet, onHover, onSelect }: NodeProps) {
 }
 
 interface SceneProps {
+  theme: Theme
   active: string | null
   onHover: (id: string | null) => void
   onSelect: (node: ConstellationNode) => void
 }
 
-function Scene({ active, onHover, onSelect }: SceneProps) {
+function Scene({ theme, active, onHover, onSelect }: SceneProps) {
+  const palette = palettes[theme]
   const edges = useMemo(() => constellationEdges(), [])
   const activeNode = active ? nodeById(active) : undefined
   const activeSet = useMemo(() => {
@@ -132,7 +143,7 @@ function Scene({ active, onHover, onSelect }: SceneProps) {
   return (
     <>
       <ambientLight intensity={0.6} />
-      <Starfield />
+      <Starfield color={palette.star} />
 
       {edges.map(([a, b]) => {
         const na = nodeById(a)!
@@ -146,7 +157,7 @@ function Scene({ active, onHover, onSelect }: SceneProps) {
               [na.position.x * SCALE, na.position.y * SCALE, na.position.z * SCALE],
               [nb.position.x * SCALE, nb.position.y * SCALE, nb.position.z * SCALE],
             ]}
-            color={connected ? '#e0a458' : '#3a4150'}
+            color={connected ? palette.accent : palette.edge}
             transparent
             opacity={dim ? 0.08 : 0.9}
             lineWidth={1}
@@ -160,6 +171,7 @@ function Scene({ active, onHover, onSelect }: SceneProps) {
           node={node}
           active={active}
           activeSet={activeSet}
+          palette={palette}
           onHover={onHover}
           onSelect={onSelect}
         />
@@ -180,10 +192,12 @@ function Scene({ active, onHover, onSelect }: SceneProps) {
 }
 
 export function ConstellationScene({
+  theme,
   active,
   onHover,
   onSelect,
 }: {
+  theme: Theme
   active: string | null
   onHover: (id: string | null) => void
   onSelect: (node: ConstellationNode) => void
@@ -195,7 +209,7 @@ export function ConstellationScene({
       gl={{ antialias: true, alpha: true }}
       className="!bg-transparent"
     >
-      <Scene active={active} onHover={onHover} onSelect={onSelect} />
+      <Scene theme={theme} active={active} onHover={onHover} onSelect={onSelect} />
     </Canvas>
   )
 }

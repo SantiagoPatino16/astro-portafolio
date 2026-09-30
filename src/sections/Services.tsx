@@ -13,26 +13,28 @@ export function Services() {
           description="Tres líneas de servicio, todas conectadas: construyo, automatizo y mantengo."
         />
 
-        <Reveal delay={0.08}>
-          <div className="mt-14 grid gap-4 md:grid-cols-3">
-            {services.map((service) => (
-              <article key={service.id} className="flex flex-col rounded-lg border border-line bg-panel p-6">
-                <h3 className="font-display text-xl font-semibold text-ink">{service.name}</h3>
-                <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-muted">
-                  {service.description}
-                </p>
-                <ul className="mt-5 space-y-2 border-t border-line pt-5">
-                  {service.bullets.map((b) => (
-                    <li key={b} className="flex items-center gap-2 text-sm text-ink-muted">
-                      <span className="h-1 w-1 rounded-full bg-accent" aria-hidden="true" />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </Reveal>
+        <div className="mt-14 grid gap-4 md:grid-cols-3">
+          {services.map((service, i) => (
+            <Reveal
+              key={service.id}
+              delay={i * 0.07}
+              className="flex flex-col rounded-lg border border-line bg-panel p-6"
+            >
+              <h3 className="font-display text-xl font-semibold text-ink">{service.name}</h3>
+              <p className="mt-3 text-[0.95rem] leading-relaxed text-ink-muted">
+                {service.description}
+              </p>
+              <ul className="mt-5 space-y-2 border-t border-line pt-5">
+                {service.bullets.map((b) => (
+                  <li key={b} className="flex items-center gap-2 text-sm text-ink-muted">
+                    <span className="h-1 w-1 rounded-full bg-accent" aria-hidden="true" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   )

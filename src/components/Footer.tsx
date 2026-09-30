@@ -4,7 +4,7 @@ import { contact } from '@/data/contact'
 
 export function Footer() {
   return (
-    <footer className="hairline-t mt-28 border-line">
+    <footer className="hairline-t relative z-10 mt-28 border-line">
       <div className="mx-auto max-w-6xl px-5 py-14 md:px-8">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div>

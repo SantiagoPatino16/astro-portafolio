@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRenderer } from '@/app/renderer-context'
+import { useTheme } from '@/app/theme-context'
 import { nodeById } from '@/lib/constellation'
 import { constellation, statusLabel, type ConstellationNode } from '@/data/constellation'
 import { ConstellationSVG } from './ConstellationSVG'
@@ -52,6 +53,7 @@ function MobileConstellation() {
 
 export function Constellation() {
   const { mode } = useRenderer()
+  const { theme } = useTheme()
   const navigate = useNavigate()
   const [active, setActive] = useState<string | null>(null)
 
@@ -67,7 +69,12 @@ export function Constellation() {
       {mode === 'webgl' ? (
         <div className="relative hidden h-[460px] w-full md:block md:h-[560px]">
           <Suspense fallback={null}>
-            <ConstellationScene active={active} onHover={setActive} onSelect={handleSelect} />
+            <ConstellationScene
+              theme={theme}
+              active={active}
+              onHover={setActive}
+              onSelect={handleSelect}
+            />
           </Suspense>
 
           <div

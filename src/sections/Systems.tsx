@@ -5,6 +5,8 @@ import { StatusBadge } from '@/components/StatusBadge'
 import { caseStudies, otherSystems } from '@/data/constellation'
 
 export function Systems() {
+  const featured = caseStudies.filter((c) => c.featured)
+
   return (
     <section id="sistemas" className="hairline-t border-line">
       <div className="mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
@@ -15,13 +17,10 @@ export function Systems() {
           description="No demos ni prototipos: sistemas que empresas usan para operar. Cada uno con su problema, sus decisiones y su estado actual."
         />
 
-        <Reveal delay={0.08}>
         <div className="mt-14 space-y-3">
-          {caseStudies
-            .filter((c) => c.featured)
-            .map((c, i) => (
+          {featured.map((c, i) => (
+            <Reveal key={c.id} delay={i * 0.07}>
               <Link
-                key={c.id}
                 to={`/sistema/${c.id}`}
                 className="group grid grid-cols-[auto_1fr_auto] items-center gap-5 rounded-lg border border-line bg-panel p-6 transition-colors hover:border-line-strong md:gap-8 md:p-8"
               >
@@ -56,29 +55,29 @@ export function Systems() {
 
                 <span
                   aria-hidden="true"
-                  className="font-display text-2xl text-ink-faint transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent"
+                  className="font-display text-2xl text-ink-faint transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent-ink"
                 >
                   →
                 </span>
               </Link>
-            ))}
+            </Reveal>
+          ))}
         </div>
-        </Reveal>
 
         <div className="mt-16">
           <h3 className="eyebrow mb-6">Otros sistemas</h3>
           <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-            {otherSystems.map((s) => (
-              <article key={s.name} className="bg-panel p-5">
+            {otherSystems.map((s, i) => (
+              <Reveal key={s.name} delay={i * 0.05} className="bg-panel p-5">
                 <h4 className="font-medium text-ink">{s.name}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-ink-muted">{s.what}</p>
                 <p className="mt-3 font-mono text-[0.65rem] uppercase tracking-[0.1em] text-ink-faint">
                   {s.stack}
                 </p>
-                <p className="mt-1 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-accent">
+                <p className="mt-1 font-mono text-[0.62rem] uppercase tracking-[0.1em] text-accent-ink">
                   {s.status}
                 </p>
-              </article>
+              </Reveal>
             ))}
           </div>
         </div>
