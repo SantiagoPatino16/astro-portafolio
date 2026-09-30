@@ -266,6 +266,7 @@ export const caseStudies: CaseStudy[] = [
     shots: [
       { base: 'astronova1', alt: 'Inventario de AstroNova', caption: 'Inventario' },
       { base: 'astronova2', alt: 'Remisión de AstroNova', caption: 'Remisión' },
+      { base: 'astronova3', alt: 'Cortes de AstroNova', caption: 'Cortes' },
     ],
     featured: true,
   },
