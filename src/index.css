@@ -1,0 +1,100 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-void: #0a0d12;
+  --color-panel: #11151c;
+  --color-elevated: #161b24;
+  --color-ink: #e9ebf1;
+  --color-ink-muted: #97a0b3;
+  --color-ink-faint: #7f8a9e;
+  --color-line: rgba(233, 235, 241, 0.1);
+  --color-line-strong: rgba(233, 235, 241, 0.16);
+  --color-grid: rgba(233, 235, 241, 0.045);
+  --color-accent: #e0a458;
+  --color-accent-soft: rgba(224, 164, 88, 0.14);
+  --color-prod: #7bc88a;
+  --color-beta: #e0a458;
+  --color-acad: #8a94a8;
+
+  --font-display: 'Fraunces Variable', 'Georgia', serif;
+  --font-body: 'Archivo Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 400;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: #0a0d12;
+  }
+
+  [id] {
+    scroll-margin-top: 5rem;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .bg-grid {
+    background-image:
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hairline-t {
+    border-top: 1px solid var(--color-line);
+  }
+  .hairline-b {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-ink-muted);
+  }
+}
